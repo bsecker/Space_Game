@@ -2,6 +2,7 @@
 try:
     import sys
     import pygame
+    import gen.gen
 
     import constants
     import world
@@ -19,7 +20,6 @@ def main():
     pygame.display.set_caption(constants.WIN_CAPTION)
 
     FPSCLOCK = pygame.time.Clock()
-
     game_world = world.World()
 
     game_running = True

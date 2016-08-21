@@ -28,7 +28,14 @@ def main():
             node_list.append(sum(temp_node_list) / len(temp_node_list))
         return node_list
 
-    planets = _random(0,640,1000)
+    def _random_2(_min, _max, _nodes):
+        node_list = []
+
+        for _i in range(_nodes):
+            node_list.append(int(random.gauss(((_max-_min)/2), 40)))
+        return node_list
+
+    planets = _random_2(0,640,1000)
 
     game_running = True
     while game_running:
@@ -45,7 +52,7 @@ def main():
                     game_running = False
         # Draw
         for _i in planets:
-            pygame.draw.circle(screen, constants.WHITE, (_i, 250), 5)
+            pygame.draw.circle(screen, constants.WHITE, (_i, random.randrange( 50, 500)), 5)
 
         FPSCLOCK.tick(constants.FPS)
         pygame.display.update()

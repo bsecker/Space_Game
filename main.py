@@ -2,7 +2,7 @@
 try:
     import sys
     import pygame
-    import gen.gen
+    import gen
 
     import constants
     import world
@@ -37,7 +37,7 @@ def main():
         game_world.update()
 
         # Draw
-        game_world.draw()
+        game_world.draw(screen)
         FPSCLOCK.tick(constants.FPS)
         pygame.display.update()
 

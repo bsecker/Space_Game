@@ -30,13 +30,15 @@ class Galaxy:
 		for _i in range(stars):
 			x = random.gauss(mux, sigma)
 			y = random.gauss(muy, sigma)
-			star_list.append(entities.Star(x, y))
-
+			temperature = 1000
+			planets_num = random.randint(1, 10) #always one planet
+			name = None
+			star_list.append(entities.Star(x, y, temperature, planets_num, name))
 		return star_list
 
 
 
-		
+# test this functionality works
 if __name__ == '__main__':
 	gal = Galaxy()
 	print gal.generate(100, 100, 320, 240, 30)

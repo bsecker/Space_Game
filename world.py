@@ -4,10 +4,11 @@ import constants
 
 class World:
 	def __init__(self):
-		self.game_state = "state_system"
+		self.game_state = "state_planet"
 
 		self.galaxy = gen.Galaxy()
-		self.current_system = self.galaxy.level_objs[1]
+		self.system = self.galaxy.level_objs[1]
+		self.planet = self.system.level_objs[1]
 
 		self.level_objs = []
 
@@ -28,10 +29,10 @@ class World:
 		self.level_objs = self.galaxy.level_objs
 
 	def state_system(self):
-		self.level_objs = self.current_system.level_objs
+		self.level_objs = self.system.level_objs
 
 	def state_planet(self):
-		pass
+		self.level_objs = self.planet.level_objs
 
 	def state_terrain(self):
 		pass

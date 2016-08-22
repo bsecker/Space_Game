@@ -66,13 +66,48 @@ class System:
         for _i in range(planet_count):
             distance = random.randrange(10, 350)
             angle = random.randrange(0, 360)
-            speed = random.random()/4 #slow as bro
-            planet_list.append(entities.Planet(distance, angle, speed))
+            speed = random.random()/15 #slow as bro
+            planet_list.append(Planet(distance, angle, speed))
 
         return planet_list
 
+class Planet:
+    def __init__(self, distance, angle, speed, name = None, planet_type = 1):
+        """planet level"""
 
-# test this functionality works
+        self.name = name
+        self.planet_type = planet_type
+
+        #in system
+        self.planet = entities.Planet(distance, angle, speed)
+
+        #zoomed in
+        self.planet_zoomed = entities.Planet_Large()
+
+        self.level_objs = [self.planet_zoomed]
+
+    def update(self):
+        self.planet.update()
+
+    def draw(self, surface):
+        self.planet.draw(surface)
+
+
+class Planet_Ground:
+    def __init__(self):
+        """Planet ground level."""
+        pass
+
+    def generate(self):
+        pass
+
+    def update(self):
+        pass
+
+    def draw(self, surface):
+        pass
+
+# test function to see if this functionality works
 if __name__ == '__main__':
     gal = Galaxy()
     print gal.generate(100, 320, 240, 30)

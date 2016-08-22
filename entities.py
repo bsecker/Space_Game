@@ -16,6 +16,8 @@ class Base_Entity(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
+### GALAXY LEVEL ###
+
 class Star(Base_Entity):
     """ star system """
     def __init__(self, x, y):
@@ -32,6 +34,9 @@ class Star(Base_Entity):
 
     def draw(self, surface):
         pygame.draw.circle(surface, self.color, (self.rect.centerx, self.rect.centery), self.size)
+
+
+### SYSTEM LEVEL ###
 
 class Planet(Base_Entity):
     def __init__(self, distance, angle, speed):
@@ -68,6 +73,7 @@ class Planet(Base_Entity):
 
 class Sun(Base_Entity):
     def __init__(self):
+        self.entity_id = "sun"
         self.size = 5
         self.x = constants.HALF_SCREEN_WIDTH-(self.size/2)
         self.y = constants.HALF_SCREEN_HEIGHT-(self.size/2)
@@ -78,3 +84,16 @@ class Sun(Base_Entity):
 
     def draw(self, surface):
         pygame.draw.circle(surface, constants.YELLOW, (self.rect.centerx, self.rect.centery), self.size)
+
+### PLANET LEVEL ###
+class Planet_Large(Base_Entity):
+    def __init__(self):
+        Base_Entity.__init__(self)
+        self.entity_id = "planet_large"
+        self.size = 230
+
+    def update(self):
+        pass
+
+    def draw(self, surface):
+        pygame.draw.circle(surface, constants.WHITE, (constants.HALF_SCREEN_WIDTH/2,constants.HALF_SCREEN_HEIGHT), self.size)

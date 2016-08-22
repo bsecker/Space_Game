@@ -66,8 +66,6 @@ class Planet(Base_Entity):
         else:
             self.angle = 0
 
-        print self.speed
-
     def draw(self, surface):
         pygame.draw.circle(surface, constants.WHITE, (self.rect.centerx, self.rect.centery), self.size)
 
@@ -87,13 +85,15 @@ class Sun(Base_Entity):
 
 ### PLANET LEVEL ###
 class Planet_Large(Base_Entity):
-    def __init__(self):
+    def __init__(self, colour):
         Base_Entity.__init__(self)
         self.entity_id = "planet_large"
         self.size = 230
+        self.colour = colour
+        print self.colour
 
     def update(self):
         pass
 
     def draw(self, surface):
-        pygame.draw.circle(surface, constants.WHITE, (constants.HALF_SCREEN_WIDTH/2,constants.HALF_SCREEN_HEIGHT), self.size)
+        pygame.draw.circle(surface, self.colour, (constants.HALF_SCREEN_WIDTH/2,constants.HALF_SCREEN_HEIGHT), self.size)

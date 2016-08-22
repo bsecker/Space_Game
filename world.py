@@ -1,4 +1,4 @@
-"""main module for controlling game state etc"""
+"""main module for controlling game state etc."""
 import gen
 import constants
 
@@ -25,6 +25,13 @@ class World:
 		for _i in self.level_objs:
 			_i.draw(surface)
 
+			# # draw text if it has it
+			# try:
+			# 	print _i.texts
+			# except AttributeError:
+			# 	pass
+
+
 	def state_galaxy(self):
 		self.level_objs = self.galaxy.level_objs
 
@@ -36,3 +43,4 @@ class World:
 
 	def state_terrain(self):
 		pass
+

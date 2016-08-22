@@ -22,6 +22,9 @@ def main():
     FPSCLOCK = pygame.time.Clock()
     game_world = world.World()
 
+    font = pygame.font.Font(None, 32)
+    gen.font = font
+
     game_running = True
     while game_running:
         # Event Handling

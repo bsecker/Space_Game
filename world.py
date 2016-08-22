@@ -4,7 +4,7 @@ import constants
 
 class World:
 	def __init__(self):
-		self.game_state = "state_planet"
+		self.game_state = "state_system"
 
 		self.galaxy = gen.Galaxy()
 		self.system = self.galaxy.level_objs[1]

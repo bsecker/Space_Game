@@ -39,7 +39,7 @@ class Star(Base_Entity):
 ### SYSTEM LEVEL ###
 
 class Planet(Base_Entity):
-    def __init__(self, distance, angle, speed):
+    def __init__(self, distance, angle, speed, colour):
         Base_Entity.__init__(self)
         self.entity_id = "planet"
         self.x = 0
@@ -49,6 +49,7 @@ class Planet(Base_Entity):
         self.distance = distance
         self.angle = angle
         self.speed = speed
+        self.colour = colour
 
         self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
 
@@ -67,7 +68,7 @@ class Planet(Base_Entity):
             self.angle = 0
 
     def draw(self, surface):
-        pygame.draw.circle(surface, constants.WHITE, (self.rect.centerx, self.rect.centery), self.size)
+        pygame.draw.circle(surface, self.colour, (self.rect.centerx, self.rect.centery), self.size)
 
 class Sun(Base_Entity):
     def __init__(self):

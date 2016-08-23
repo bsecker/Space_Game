@@ -17,7 +17,8 @@ class Galaxy:
         self.sigma = 120 #how clustered it is in the middle
 
         #generate galaxy
-        self.level_objs = self.generate(self.seed, self.mux, self.muy, self.sigma)
+        #self.stars = self.generate(self.seed, self.mux, self.muy, self.sigma)
+        #self.level_objs = self.make(self.stars)
 
     def generate(self, seed, mux, muy, sigma):
         """generate level with gaussian distribution of planets. (clusters in middle)
@@ -30,14 +31,24 @@ class Galaxy:
         star_list = []
         stars = random.randint( 250, 1500)
 
-        for _i in range(stars):
-            x = random.gauss(mux, sigma)
-            y = random.gauss(muy, sigma)
-            temperature = 1000
-            planet_count = random.randint(1, 10) #always one planet
-            name = None
-            star_list.append(System(x, y, temperature, planet_count, name))
+        for _i_num, _i in enumerate(range(stars)):
+            system = {}
+            system['x'] = random.gauss(mux, sigma)
+            system['y'] = random.gauss(muy, sigma)
+            system['temperature'] = 1000
+            system['planet_count'] = random.randint(1, 10) #always one planet
+            system['name'] = None
+            system['id'] = _i_num
+            star_list.append(system)
+        print star_list
         return star_list
+
+    def make(self, star_list):
+        """construct physical objects out of generated list"""
+        objs = []
+        for _i in star_list:
+            objs.append(entities.Star(_i['x'], _i['y']))
+        return objs
 
 class System:
     def __init__(self, x, y, temperature, planet_count, name = None):

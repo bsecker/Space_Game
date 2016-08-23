@@ -3,12 +3,21 @@ import gen
 import constants
 
 class World:
+	"""Things to remember
+
+	game_state = pygame 'level'. ie main menu can be a state.
+	level_objs = objects within the level (specified by game_state).
+
+	"""
 	def __init__(self):
-		self.game_state = "state_system"
+		self.game_state = "state_galaxy"
 
 		self.galaxy = gen.Galaxy()
-		self.system = self.galaxy.level_objs[1]
-		self.planet = self.system.level_objs[1]
+		self.system = None
+		self.planet = None
+		self.planet_large = None
+		self.terrain = None
+		self.menu = None
 
 		self.level_objs = []
 
@@ -16,21 +25,15 @@ class World:
 		state = getattr(self, self.game_state)
 		state()
 
-		# update everything - might need to change this!
+		# update everything in level_objs
 		for _i in self.level_objs:
 			_i.update()
 
 	def draw(self, surface):
 		surface.fill(constants.BG_COLOUR)
+
 		for _i in self.level_objs:
 			_i.draw(surface)
-
-			# # draw text if it has it
-			# try:
-			# 	print _i.texts
-			# except AttributeError:
-			# 	pass
-
 
 	def state_galaxy(self):
 		self.level_objs = self.galaxy.level_objs
@@ -44,3 +47,8 @@ class World:
 	def state_terrain(self):
 		pass
 
+	def state_menu(self):
+		self.level_objs = self.menu.level_objs
+
+	def set_state(self, state):
+		"""change state to specified state"""

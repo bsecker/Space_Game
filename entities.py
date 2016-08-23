@@ -91,7 +91,6 @@ class Planet_Large(Base_Entity):
         self.entity_id = "planet_large"
         self.size = 230
         self.colour = colour
-        print self.colour
 
     def update(self):
         pass

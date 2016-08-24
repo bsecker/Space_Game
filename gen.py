@@ -22,9 +22,18 @@ class Surface:
     def __init__(self):
         """Planet ground level."""
         self.level_objs = self.generate()
+        self.level_entities = []
+        self.player = self.generate_player( 50, 100)
+        self.level_entities.append(self.player)
 
     def generate(self):
         pass
+
+    def generate_player(self, x, y):
+        player = entities_surface.Player(x,y)
+        player.block_list = self.level_objs
+
+        return player
 
     def update(self):
         pass
@@ -55,14 +64,23 @@ class SurfaceForest(Surface):
         """generate forest based world"""
         block_list = []
         block_num = constants.SCREEN_WIDTH/constants.BLOCK_SIZE
+        y = (constants.SCREEN_HEIGHT-constants.BLOCK_SIZE*5)
+
         for _i in range(block_num):
             x = _i * constants.BLOCK_SIZE
-            y = constants.SCREEN_HEIGHT-constants.BLOCK_SIZE
+
+            # change y 
+            y += random.choice([constants.BLOCK_SIZE, -constants.BLOCK_SIZE, 0])
+
+            # add grass
             block = blocks.Grass(x, y)
             block_list.append(block)
 
-        tree = self.generate_tree(9*constants.BLOCK_SIZE, constants.SCREEN_HEIGHT-constants.BLOCK_SIZE)
-        block_list.extend(tree)
+            # add trees randomly
+            if random.randint(0, 20) == 1:
+                tree = self.generate_tree(x, y)
+                block_list.extend(tree)
+  
         return block_list
 
     def generate_tree(self, _x, _y):
@@ -99,6 +117,8 @@ class SurfaceForest(Surface):
 
 
         return block_list
+
+
 
 
 ## OLD CODE

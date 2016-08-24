@@ -9,8 +9,6 @@ replace sprites with dirty sprites!
 
 """
 
-
-
 class Base_Entity(pygame.sprite.Sprite):
     """Entity Superclass."""
     def __init__(self):

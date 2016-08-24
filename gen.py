@@ -1,9 +1,10 @@
 """main generator module"""
 import random
-import entities
+import entities_surface
 import constants
 import math
 import pygame
+import blocks
 
 class System:
     def __init__(self, planet_count):
@@ -15,7 +16,7 @@ class Planet:
         self.planet_id = planet_id
         self.planet_type = planet_type
 
-        self.surface = Surface_Forest()
+        self.surface = SurfaceForest()
 
 class Surface:
     def __init__(self):
@@ -31,26 +32,37 @@ class Surface:
     def draw(self, surface):
         pass
 
-class Surface_Ice(Surface):
+class SurfaceIce(Surface):
     def __init__(self):
         Surface.__init__(self)
 
     def generate(self):
         pass
 
-class Surface_Rock(Surface):
+class SurfaceRock(Surface):
     def __init__(self):
         Surface.__init__(self)
 
     def generate(self):
         pass
 
-class Surface_Forest(Surface):
+class SurfaceForest(Surface):
     def __init__(self):
         Surface.__init__(self)
+        self.bg_colour = constants.BLUE
 
     def generate(self):
-        pass
+        """generate forest based world"""
+        block_list = []
+        block_num = constants.SCREEN_WIDTH/constants.BLOCK_SIZE
+        for _i in range(block_num):
+            block = blocks.Rock()
+            x = _i * constants.BLOCK_SIZE
+            y = constants.SCREEN_HEIGHT-constants.BLOCK_SIZE
+            block.rect.topleft = (x,y)
+            block_list.append(block)
+
+        return block_list
 
 
 ## OLD CODE

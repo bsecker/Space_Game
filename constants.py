@@ -30,3 +30,9 @@ right_boundary = SCREEN_WIDTH - boundary
 left_boundary = boundary
 
 WIN_CAPTION = "Really Cool Space Game"
+
+BLOCK_SIZE = 8
+
+# make sure block size is always a good size
+assert SCREEN_WIDTH % BLOCK_SIZE == 0, "Non valid block size yo"
+assert SCREEN_HEIGHT % BLOCK_SIZE == 0, "Non valid block size yo"

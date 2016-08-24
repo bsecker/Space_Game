@@ -56,11 +56,44 @@ class SurfaceForest(Surface):
         block_list = []
         block_num = constants.SCREEN_WIDTH/constants.BLOCK_SIZE
         for _i in range(block_num):
-            block = blocks.Rock()
             x = _i * constants.BLOCK_SIZE
             y = constants.SCREEN_HEIGHT-constants.BLOCK_SIZE
-            block.rect.topleft = (x,y)
+            block = blocks.Grass(x, y)
             block_list.append(block)
+
+        tree = self.generate_tree(9*constants.BLOCK_SIZE, constants.SCREEN_HEIGHT-constants.BLOCK_SIZE)
+        block_list.extend(tree)
+        return block_list
+
+    def generate_tree(self, _x, _y):
+        _trunk_length = 8 #length of trunk
+        _branch_length = 6 #length of branches
+
+        _bs = constants.BLOCK_SIZE #block size
+        block_list = []
+
+        # Make trunk
+        x = _x
+        y = _y
+        for _i in range(_trunk_length,0,-1):
+            block_list.append(blocks.Trunk(_x, _y-(_i*_bs)))
+
+        # Find branch origins (not close to ground)
+        _left_orig = random.choice(block_list[:-5])
+        _right_orig = random.choice(block_list[:-5])
+
+        # do left branch
+        _x = _left_orig.rect.x
+        _y = _left_orig.rect.y
+        for _i in range(_branch_length):
+            new_y = _y + random.choice([_i*_bs, -_i*_bs])
+            block_list.append(blocks.Trunk(_x-(_i*_bs),new_y))
+
+        # do right branch
+        _x = _right_orig.rect.x
+        _y = _right_orig.rect.y
+        for _i in range(_branch_length):
+            block_list.append(blocks.Trunk(_x+(_i*_bs),_y))
 
         return block_list
 
@@ -192,5 +225,5 @@ class SurfaceForest(Surface):
 
 # test function to see if this functionality works
 if __name__ == '__main__':
-    gal = Galaxy()
-    print gal.generate(100, 320, 240, 30)
+    tree = Tree(50, 100)
+    #print tree.blocks

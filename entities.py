@@ -97,3 +97,7 @@ class Planet_Large(Base_Entity):
 
     def draw(self, surface):
         pygame.draw.circle(surface, self.colour, (constants.HALF_SCREEN_WIDTH/2,constants.HALF_SCREEN_HEIGHT), self.size)
+
+
+### SURFACE LEVEL ###
+

@@ -76,24 +76,27 @@ class SurfaceForest(Surface):
         x = _x
         y = _y
         for _i in range(_trunk_length,0,-1):
-            block_list.append(blocks.Trunk(_x, _y-(_i*_bs)))
+            block_list.append(blocks.Trunk(x, y-(_i*_bs)))
 
         # Find branch origins (not close to ground)
-        _left_orig = random.choice(block_list[:-5])
-        _right_orig = random.choice(block_list[:-5])
+        _left_orig = random.choice(block_list[:-5]).rect
+        _right_orig = random.choice(block_list[:-5]).rect
 
         # do left branch
-        _x = _left_orig.rect.x
-        _y = _left_orig.rect.y
         for _i in range(_branch_length):
-            new_y = _y + random.choice([_i*_bs, -_i*_bs])
-            block_list.append(blocks.Trunk(_x-(_i*_bs),new_y))
 
-        # do right branch
-        _x = _right_orig.rect.x
-        _y = _right_orig.rect.y
-        for _i in range(_branch_length):
-            block_list.append(blocks.Trunk(_x+(_i*_bs),_y))
+            #move left, up or down
+            _dir = random.choice(['N','E','S','E','E'])
+
+            if _dir == 'N':
+                _left_orig.y +=- _bs
+            elif _dir == 'E':
+                _left_orig.x +=- _bs
+            elif _dir == 'S':
+                _left_orig.y += _bs
+
+            block_list.append(blocks.Trunk(_left_orig.x, _left_orig.y))
+
 
         return block_list
 

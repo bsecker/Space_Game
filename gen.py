@@ -76,10 +76,19 @@ class SurfaceForest(Surface):
             block = blocks.Grass(x, y)
             block_list.append(block)
 
+
+            # add blocks below
+            _y = y
+            while _y <= constants.SCREEN_HEIGHT:
+            	_y+=constants.BLOCK_SIZE
+            	block = blocks.Grass(x, _y)
+            	block_list.append(block)
+
             # add trees randomly
             if random.randint(0, 20) == 1:
                 tree = self.generate_tree(x, y)
                 block_list.extend(tree)
+
   
         return block_list
 

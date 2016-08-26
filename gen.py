@@ -58,13 +58,13 @@ class SurfaceRock(Surface):
 class SurfaceForest(Surface):
     def __init__(self):
         Surface.__init__(self)
-        self.bg_colour = constants.BLUE
+        self.bg_colour = constants.LIGHTBLUE
 
     def generate(self):
         """generate forest based world"""
         block_list = []
         block_num = constants.SCREEN_WIDTH/constants.BLOCK_SIZE
-        y = (constants.SCREEN_HEIGHT-constants.BLOCK_SIZE*5)
+        y = (constants.SCREEN_HEIGHT-constants.BLOCK_SIZE*25)
 
         for _i in range(block_num):
             x = _i * constants.BLOCK_SIZE
@@ -76,17 +76,16 @@ class SurfaceForest(Surface):
             block = blocks.Grass(x, y)
             block_list.append(block)
 
-
             # add blocks below
             _y = y
             while _y <= constants.SCREEN_HEIGHT:
             	_y+=constants.BLOCK_SIZE
-            	block = blocks.Grass(x, _y)
+            	block = blocks.Dirt(x, _y)
             	block_list.append(block)
 
             # add trees randomly
             if random.randint(0, 20) == 1:
-                tree = self.generate_tree(x, y)
+                tree = self.generate_pine_tree(x, y)
                 block_list.extend(tree)
 
   
@@ -126,6 +125,36 @@ class SurfaceForest(Surface):
 
 
         return block_list
+
+    def generate_pine_tree(self, x, y):
+        """generate generic looking piney thing"""
+        block_list = []
+        trunk_length = random.randint(8, 12) # top point of tree
+        max_visible_trunk_height = 4
+        max_leaves_height = trunk_length - max_visible_trunk_height #makimum distance leaves can go down
+        bs = constants.BLOCK_SIZE
+
+        # make trunk
+        for _i in range(max_visible_trunk_height, 0, -1):
+            block_list.append(blocks.Trunk(x, y-(_i*bs)))
+
+        # make leaves
+        x_orig = x
+        y_orig = y - (trunk_length*bs)
+        _x = x_orig
+        _y = y_orig
+
+        while _y <= (y_orig + max_leaves_height*bs):
+            for _i in range((abs(_x - x_orig)/bs*2)+1):
+                block_list.append(blocks.Leaves(_x + _i*bs, _y))
+            
+            _x +=- bs
+            _y += bs
+
+
+        return block_list
+
+
 
 
 

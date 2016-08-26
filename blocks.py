@@ -27,8 +27,19 @@ class Rock(Block):
         Block.__init__(self, constants.ORANGE, x, y)
         self.block_id = 'rock'
 
+class Dirt(Block):
+    def __init__(self, x, y):
+        Block.__init__(self, constants.BROWN, x, y)
+        self.block_id = 'rock'
+
 class Trunk(Block):
     def __init__(self, x, y):
-        Block.__init__(self, constants.BLACK, x, y)
+        Block.__init__(self, constants.BROWN, x, y)
         self.block_id = 'trunk'
+        self.solid = False
+
+class Leaves(Block):
+    def __init__(self, x, y):
+        Block.__init__(self, constants.DARKGREEN, x, y)
+        self.block_id = 'leaves'
         self.solid = False

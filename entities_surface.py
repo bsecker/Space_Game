@@ -22,9 +22,9 @@ class Entity(BaseEntity):
     def __init__(self, x, y, width, height, colour):
         BaseEntity.__init__(self, x, y, width, height, colour)
         self.max_gravity = 20
-        self.jump_speed = 4
+        self.jump_speed = 3
         self.gravity_accel = .30
-        self.move_speed = 4
+        self.move_speed = 2
         self.alive = True
 
         self.x_vel = 0
@@ -42,24 +42,25 @@ class Entity(BaseEntity):
         #collide with objects
         block_hit_list = pygame.sprite.spritecollide(self, self.block_list, False)
         for block in block_hit_list:
-            if self.x_vel > 0:
-                self.rect.right = block.rect.left
-            elif self.x_vel < 0:
-                self.rect.left = block.rect.right
+            if block.solid:
+                if self.x_vel > 0:
+                    self.rect.right = block.rect.left
+                elif self.x_vel < 0:
+                    self.rect.left = block.rect.right
 
         #move up/down
         self.rect.y += self.y_vel
         # collide with objects
         block_hit_list = pygame.sprite.spritecollide(self, self.block_list, False)
         for block in block_hit_list:
-            # Reset our position based on the top/bottom of the object.
-            if self.y_vel > 0:
-                self.rect.bottom = block.rect.top
-            elif self.y_vel < 0:
-                self.rect.top = block.rect.bottom
- 
-            # Stop our vertical movement
-            self.y_vel = 0
+            if block.solid:# Reset our position based on the top/bottom of the object.
+                if self.y_vel > 0:
+                    self.rect.bottom = block.rect.top
+                elif self.y_vel < 0:
+                    self.rect.top = block.rect.bottom
+
+                # Stop our vertical movement
+                self.y_vel = 0
 
 
     def calc_gravity(self):
@@ -79,7 +80,8 @@ class Entity(BaseEntity):
         # Move down 2 pixels because it doesn't work well if we only move down
         # 1 when working with a platform moving down.
         self.rect.y += 2
-        block_hit_list = pygame.sprite.spritecollide(self, self.block_list, False)
+        # only if the block is solid
+        block_hit_list = [i for i in pygame.sprite.spritecollide(self, self.block_list, False) if i.solid == True]
         self.rect.y -= 2
  
         # If it is ok to jump, set our speed upwards
@@ -108,5 +110,5 @@ class Entity(BaseEntity):
 class Player(Entity):
     def __init__(self, x, y):
         """main class for player on surface"""
-        Entity.__init__(self, x, y, constants.BLOCK_SIZE, constants.BLOCK_SIZE*2, constants.RED)
+        Entity.__init__(self, x, y, constants.BLOCK_SIZE*2, constants.BLOCK_SIZE*4, constants.RED)
         

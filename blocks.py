@@ -14,8 +14,8 @@ class Block:
     def update(self):
         pass
 
-    def draw(self, surface):
-        surface.blit(self.image, self.rect)
+    def draw(self, surface, camera):
+        surface.blit(self.image, camera.apply(self))
 
 class Grass(Block):
     def __init__(self, x, y):
@@ -30,7 +30,17 @@ class Rock(Block):
 class Dirt(Block):
     def __init__(self, x, y):
         Block.__init__(self, constants.BROWN, x, y)
-        self.block_id = 'rock'
+        self.block_id = 'dirt'
+
+class Dirt_Long(Block):
+    def __init__(self, x, y, height):
+        """makes a dirt block of a arbitrary size."""
+        self.block_id = 'dirt_long'
+        self.image = pygame.Surface((10,350))
+        self.image.fill(constants.BROWN)
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x,y)
 
 class Trunk(Block):
     def __init__(self, x, y):

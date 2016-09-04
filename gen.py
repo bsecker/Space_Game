@@ -7,9 +7,11 @@ import pygame
 import blocks
 
 class System:
-    def __init__(self, planet_count):
+    def __init__(self, planet_count, ):
         self.planets = [Planet(1, 'rock'), Planet(2, 'ice')]
         self.planet = None
+
+
         
 class Planet:
     def __init__(self, planet_id, planet_type):
@@ -19,10 +21,12 @@ class Planet:
         self.surface = SurfaceForest()
 
 class Surface:
-    def __init__(self):
+    def __init__(self, ):
         """Planet ground level."""
+        # random.seed(seed)
         self.level_objs = self.generate()
-        self.level_entities = []
+        self.level_entities = []                    
+        # add player
         self.player = self.generate_player( 50, 100)
         self.level_entities.append(self.player)
 
@@ -60,12 +64,12 @@ class SurfaceForest(Surface):
         Surface.__init__(self)
         self.bg_colour = constants.LIGHTBLUE
 
-    def generate(self):
+    def generate_walk(self):
         """generate forest based world"""
         block_list = []
         block_num = constants.SCREEN_WIDTH/constants.BLOCK_SIZE
         y = (constants.SCREEN_HEIGHT-constants.BLOCK_SIZE*25)
-
+        
         for _i in range(block_num):
             x = _i * constants.BLOCK_SIZE
 
@@ -82,82 +86,66 @@ class SurfaceForest(Surface):
             	_y+=constants.BLOCK_SIZE
             	block = blocks.Dirt(x, _y)
             	block_list.append(block)
-
-            # add trees randomly
-            if random.randint(0, 20) == 1:
-                tree = self.generate_pine_tree(x, y)
-                block_list.extend(tree)
-
   
         return block_list
 
-    def generate_tree(self, _x, _y):
-        _trunk_length = 8 #length of trunk
-        _branch_length = 6 #length of branches
-
-        _bs = constants.BLOCK_SIZE #block size
+    def generate(self):
+        """generate terrain based on recursive algorithm."""
+        points = []
         block_list = []
 
-        # Make trunk
-        x = _x
-        y = _y
-        for _i in range(_trunk_length,0,-1):
-            block_list.append(blocks.Trunk(x, y-(_i*_bs)))
+        leftx = 0
+        rightx = 5120
+        lefty = constants.MAX_LEVEL_HEIGHT/2
+        righty = constants.MAX_LEVEL_HEIGHT/2
 
-        # Find branch origins (not close to ground)
-        _left_orig = random.choice(block_list[:-5]).rect
-        _right_orig = random.choice(block_list[:-5]).rect
+        #1280/2^n = 40 => n = 5
 
-        # do left branch
-        for _i in range(_branch_length):
+        def roundTo(x, base=5):
+            return int(base * round(float(x)/base))
 
-            #move left, up or down
-            _dir = random.choice(['N','E','S','E','E'])
+        ##### make points    
 
-            if _dir == 'N':
-                _left_orig.y +=- _bs
-            elif _dir == 'E':
-                _left_orig.x +=- _bs
-            elif _dir == 'S':
-                _left_orig.y += _bs
+        def _add(leftx, lefty, rightx, righty, recurs, displacement):
+            recurs += 1
 
-            block_list.append(blocks.Trunk(_left_orig.x, _left_orig.y))
+            midpointx = (leftx+rightx)/2
+            midpointy = (lefty +righty)/2 + random.randint(-displacement, displacement)
+
+            displacement = displacement/2 #half displacement
+ 
+            if recurs < 10:
+                _add(leftx, lefty, midpointx, midpointy, recurs, displacement)
+                _add(midpointx, midpointy, rightx, righty, recurs, displacement)
+
+            else:
+                points.append((leftx, lefty))
+                points.append((rightx, righty))
+
+        recurs = 0
+        _add(leftx, lefty, rightx, righty, recurs, 300)
+
+        del points[1:-1:2]
+        
+        ##### add grass
+        for _i in points:
+            _y = roundTo(_i[1], constants.BLOCK_SIZE)
+            block = blocks.Grass(_i[0], _y)
+            block_list.append(block)
+
+            # add dirt downwards from grass block
+            block_down = blocks.Dirt_Long(_i[0], _y+constants.BLOCK_SIZE, 1)
+            block_list.append(block_down)
+
+            # while _y < constants.MAX_LEVEL_HEIGHT:
+            #     _y += constants.BLOCK_SIZE
+            #     block = blocks.Dirt(_i[0], _y)
+            #     block_list.append(block)
+
+
 
 
         return block_list
-
-    def generate_pine_tree(self, x, y):
-        """generate generic looking piney thing"""
-        block_list = []
-        trunk_length = random.randint(8, 12) # top point of tree
-        max_visible_trunk_height = 4
-        max_leaves_height = trunk_length - max_visible_trunk_height #makimum distance leaves can go down
-        bs = constants.BLOCK_SIZE
-
-        # make trunk
-        for _i in range(max_visible_trunk_height, 0, -1):
-            block_list.append(blocks.Trunk(x, y-(_i*bs)))
-
-        # make leaves
-        x_orig = x
-        y_orig = y - (trunk_length*bs)
-        _x = x_orig
-        _y = y_orig
-
-        while _y <= (y_orig + max_leaves_height*bs):
-            for _i in range((abs(_x - x_orig)/bs*2)+1):
-                block_list.append(blocks.Leaves(_x + _i*bs, _y))
-            
-            _x +=- bs
-            _y += bs
-
-
-        return block_list
-
-
-
-
-
 
 ## OLD CODE
 

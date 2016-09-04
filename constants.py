@@ -27,14 +27,11 @@ SCREEN_HEIGHT = 720
 HALF_SCREEN_WIDTH = SCREEN_WIDTH/2
 HALF_SCREEN_HEIGHT = SCREEN_HEIGHT/2
 
-boundary = 350
-
-right_boundary = SCREEN_WIDTH - boundary
-left_boundary = boundary
 
 WIN_CAPTION = "Really Cool Space Game"
 
-BLOCK_SIZE = 8
+BLOCK_SIZE = 10
+MAX_LEVEL_HEIGHT = 720
 
 # make sure block size is always a good size
 assert SCREEN_WIDTH % BLOCK_SIZE == 0, "Non valid block size yo"

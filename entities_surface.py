@@ -22,7 +22,7 @@ class Entity(BaseEntity):
     def __init__(self, x, y, width, height, colour):
         BaseEntity.__init__(self, x, y, width, height, colour)
         self.max_gravity = 20
-        self.jump_speed = 3
+        self.jump_speed = 4
         self.gravity_accel = .30
         self.move_speed = 2
         self.alive = True
@@ -69,9 +69,9 @@ class Entity(BaseEntity):
             self.y_vel += self.gravity_accel
  
         # Prevent going off the bottom of the screen.
-        if self.rect.y >= constants.SCREEN_HEIGHT - self.rect.height and self.y_vel >= 0:
+        if self.rect.y >= constants.MAX_LEVEL_HEIGHT - self.rect.height and self.y_vel >= 0:
             self.y_vel = 0
-            self.rect.y = constants.SCREEN_HEIGHT - self.rect.height
+            self.rect.y = constants.MAX_LEVEL_HEIGHT - self.rect.height
 
     def jump(self):
         """ Called when user hits 'jump' button. """
@@ -85,7 +85,7 @@ class Entity(BaseEntity):
         self.rect.y -= 2
  
         # If it is ok to jump, set our speed upwards
-        if len(block_hit_list) > 0 or self.rect.bottom >= constants.SCREEN_HEIGHT:
+        if len(block_hit_list) > 0 or self.rect.bottom >= constants.MAX_LEVEL_HEIGHT:
             self.y_vel = -self.jump_speed
 
     # Player-controlled movement:
@@ -103,8 +103,8 @@ class Entity(BaseEntity):
         """ Called when the user lets off the keyboard. """
         self.x_vel = 0
 
-    def draw(self, surface):
-        surface.blit(self.image, self.rect)
+    def draw(self, surface, camera):
+        surface.blit(self.image, camera.apply(self))
 
 
 class Player(Entity):

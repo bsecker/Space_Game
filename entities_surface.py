@@ -22,9 +22,9 @@ class Entity(BaseEntity):
     def __init__(self, x, y, width, height, colour):
         BaseEntity.__init__(self, x, y, width, height, colour)
         self.max_gravity = 20
-        self.jump_speed = 8
+        self.jump_speed = 5
         self.gravity_accel = .30
-        self.move_speed = 10
+        self.move_speed = 4
         self.alive = True
 
         self.x_vel = 0

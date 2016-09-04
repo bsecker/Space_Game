@@ -34,13 +34,14 @@ class Dirt(Block):
 
 class Dirt_Long(Block):
     def __init__(self, x, y, height):
-        """makes a dirt block of a arbitrary size."""
+        """makes a dirt block of a arbitrary length."""
         self.block_id = 'dirt_long'
-        self.image = pygame.Surface((10,350))
+        self.image = pygame.Surface((10, height))
         self.image.fill(constants.BROWN)
 
         self.rect = self.image.get_rect()
         self.rect.topleft = (x,y)
+        self.solid = True
 
 class Trunk(Block):
     def __init__(self, x, y):

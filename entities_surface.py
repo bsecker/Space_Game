@@ -22,9 +22,9 @@ class Entity(BaseEntity):
     def __init__(self, x, y, width, height, colour):
         BaseEntity.__init__(self, x, y, width, height, colour)
         self.max_gravity = 20
-        self.jump_speed = 4
+        self.jump_speed = 8
         self.gravity_accel = .30
-        self.move_speed = 2
+        self.move_speed = 10
         self.alive = True
 
         self.x_vel = 0
@@ -68,10 +68,6 @@ class Entity(BaseEntity):
         if self.y_vel <= self.max_gravity:
             self.y_vel += self.gravity_accel
  
-        # Prevent going off the bottom of the screen.
-        if self.rect.y >= constants.MAX_LEVEL_HEIGHT - self.rect.height and self.y_vel >= 0:
-            self.y_vel = 0
-            self.rect.y = constants.MAX_LEVEL_HEIGHT - self.rect.height
 
     def jump(self):
         """ Called when user hits 'jump' button. """
@@ -85,7 +81,7 @@ class Entity(BaseEntity):
         self.rect.y -= 2
  
         # If it is ok to jump, set our speed upwards
-        if len(block_hit_list) > 0 or self.rect.bottom >= constants.MAX_LEVEL_HEIGHT:
+        if len(block_hit_list) > 0:
             self.y_vel = -self.jump_speed
 
     # Player-controlled movement:
@@ -111,4 +107,16 @@ class Player(Entity):
     def __init__(self, x, y):
         """main class for player on surface"""
         Entity.__init__(self, x, y, constants.BLOCK_SIZE*2, constants.BLOCK_SIZE*4, constants.RED)
-        
+        self.jetpack_capacity = 100
+        self.jetpack_fuel = 0
+
+    def jump(self):
+        Entity.jump(self)
+
+        self.rect.y += 2
+        # only if the block is solid
+        block_hit_list = [i for i in pygame.sprite.spritecollide(self, self.block_list, False) if i.solid == True]
+        self.rect.y -= 2
+
+        if len(block_hit_list) == 0:
+            self.y_vel =- 5

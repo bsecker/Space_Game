@@ -114,7 +114,7 @@ class SurfaceForest(Surface):
 
             displacement = displacement/2 #half displacement
  
-            if recurs < 10:
+            if recurs < 11:
                 _add(leftx, lefty, midpointx, midpointy, recurs, displacement)
                 _add(midpointx, midpointy, rightx, righty, recurs, displacement)
 
@@ -123,7 +123,17 @@ class SurfaceForest(Surface):
                 points.append((rightx, righty))
 
         recurs = 0
-        _add(leftx, lefty, rightx, righty, recurs, 300)
+        _add(leftx, lefty, rightx, righty, recurs, 2500)
+
+        # add less rugged biome
+        leftx += 5120
+        rightx = leftx+5120
+        _add(leftx, lefty, rightx, righty, recurs, 500)
+
+        # add completely flat biome (testing)
+        leftx += 5120
+        rightx = leftx+5120
+        _add(leftx, lefty, rightx, righty, recurs, 50)
 
         del points[1:-1:2]
         
@@ -134,7 +144,7 @@ class SurfaceForest(Surface):
             block_list.append(block)
 
             # add dirt downwards from grass block
-            block_down = blocks.Dirt_Long(_i[0], _y+constants.BLOCK_SIZE, 1)
+            block_down = blocks.Dirt_Long(_i[0], _y+constants.BLOCK_SIZE, constants.SCREEN_HEIGHT)
             block_list.append(block_down)
 
             # while _y < constants.MAX_LEVEL_HEIGHT:

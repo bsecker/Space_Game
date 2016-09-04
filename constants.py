@@ -31,7 +31,7 @@ HALF_SCREEN_HEIGHT = SCREEN_HEIGHT/2
 WIN_CAPTION = "Really Cool Space Game"
 
 BLOCK_SIZE = 10
-MAX_LEVEL_HEIGHT = 720
+MAX_LEVEL_HEIGHT = 1720
 
 # make sure block size is always a good size
 assert SCREEN_WIDTH % BLOCK_SIZE == 0, "Non valid block size yo"

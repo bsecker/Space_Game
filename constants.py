@@ -22,17 +22,14 @@ SPACE_TEXT_COLOUR = WHITE
 FPS = 60
 
 # Screen Variables
-SCREEN_WIDTH =1280
+SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 HALF_SCREEN_WIDTH = SCREEN_WIDTH/2
 HALF_SCREEN_HEIGHT = SCREEN_HEIGHT/2
 
 
-WIN_CAPTION = "Really Cool Space Game"
+WIN_CAPTION = "Kay Thanks Bye - a No Mans Sky ripoff"
 
 BLOCK_SIZE = 10
 MAX_LEVEL_HEIGHT = 1720
-
-# make sure block size is always a good size
-assert SCREEN_WIDTH % BLOCK_SIZE == 0, "Non valid block size yo"
-assert SCREEN_HEIGHT % BLOCK_SIZE == 0, "Non valid block size yo"
+CHUNK_SIZE = 5120

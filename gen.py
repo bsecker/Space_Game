@@ -24,17 +24,17 @@ class Surface:
     def __init__(self, ):
         """Planet ground level."""
         # random.seed(seed)
-        self.level_objs = self.generate()
+        self.level_objs, self.spawnpoint = self.generate()
         self.level_entities = []                    
         # add player
-        self.player = self.generate_player( 50, 100)
+        self.player = self.generate_player( self.spawnpoint)#0, constants.MAX_LEVEL_HEIGHT/2-constants.BLOCK_SIZE*2)
         self.level_entities.append(self.player)
 
     def generate(self):
         pass
 
-    def generate_player(self, x, y):
-        player = entities_surface.Player(x,y)
+    def generate_player(self, spawnpoint):
+        player = entities_surface.Player(spawnpoint[0],spawnpoint[1])
         player.block_list = self.level_objs
 
         return player
@@ -94,8 +94,8 @@ class SurfaceForest(Surface):
         points = []
         block_list = []
 
-        leftx = -1280
-        rightx = 1280
+        leftx = 0
+        rightx = constants.CHUNK_SIZE
         lefty = constants.MAX_LEVEL_HEIGHT/2
         righty = constants.MAX_LEVEL_HEIGHT/2
 
@@ -114,7 +114,7 @@ class SurfaceForest(Surface):
 
             displacement = displacement/2 #half displacement
  
-            if recurs < 9:
+            if recurs < 10:
                 _add(leftx, lefty, midpointx, midpointy, recurs, displacement)
                 _add(midpointx, midpointy, rightx, righty, recurs, displacement)
 
@@ -125,15 +125,15 @@ class SurfaceForest(Surface):
         recurs = 0
         _add(leftx, lefty, rightx, righty, recurs, 500)
 
-        # # add less rugged biome
-        # leftx += 5120
-        # rightx = leftx+5120
-        # _add(leftx, lefty, rightx, righty, recurs, 500)
+        # add less rugged biome
+        leftx = constants.CHUNK_SIZE
+        rightx = leftx+constants.CHUNK_SIZE
+        _add(leftx, lefty, rightx, righty, recurs, 750)
 
-        # # add completely flat biome (testing)
-        # leftx += 5120
-        # rightx = leftx+5120
-        # _add(leftx, lefty, rightx, righty, recurs, 50)
+        # add completely flat biome (testing)
+        leftx += constants.CHUNK_SIZE
+        rightx = leftx+constants.CHUNK_SIZE
+        _add(leftx, lefty, rightx, righty, recurs, 250)
 
         del points[1:-1:2]
         
@@ -152,10 +152,13 @@ class SurfaceForest(Surface):
             #     block = blocks.Dirt(_i[0], _y)
             #     block_list.append(block)
 
+        # set spawnpoint to exact middle
+        spawnpoint = (
+            points[-1][0]/2,
+            points[1][1]/2-50
+            )
 
-
-
-        return block_list
+        return block_list, spawnpoint
 
 ## OLD CODE
 

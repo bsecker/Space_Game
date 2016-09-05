@@ -50,8 +50,10 @@ class World:
         state = getattr(self, self.game_state)
         state()
 
+        self.drawable_blocks = [_i for _i in self.level_objs if _i.rect.x < self.player.rect.x + 800 and _i.rect.x > self.player.rect.x - 800]
+
         # update everything in level_objs
-        for _i in self.level_objs:
+        for _i in self.drawable_blocks:
             _i.update()
 
         for _i in self.level_entities:
@@ -86,10 +88,10 @@ class World:
     def draw(self, surface):
         surface.fill(self.current.bg_colour)
 
-        drawable_blocks = [_i for _i in self.level_objs if _i.rect.x < self.player.rect.x + 800 and _i.rect.x > self.player.rect.x - 800]
+        
 
         # draw blocks
-        for _i in drawable_blocks:
+        for _i in self.drawable_blocks:
                 _i.draw(surface, self.camera)
 
         # draw entities

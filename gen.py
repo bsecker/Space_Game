@@ -114,7 +114,7 @@ class SurfaceForest(Surface):
 
             displacement = displacement/2 #half displacement
  
-            if recurs < 10:
+            if recurs < constants.RECURS_DEPTH:
                 _add(leftx, lefty, midpointx, midpointy, recurs, displacement)
                 _add(midpointx, midpointy, rightx, righty, recurs, displacement)
 
@@ -126,15 +126,16 @@ class SurfaceForest(Surface):
         _add(leftx, lefty, rightx, righty, recurs, 500)
 
         # add less rugged biome
-        leftx = constants.CHUNK_SIZE
-        rightx = leftx+constants.CHUNK_SIZE
-        _add(leftx, lefty, rightx, righty, recurs, 750)
+        # leftx = constants.CHUNK_SIZE
+        # rightx = leftx+constants.CHUNK_SIZE
+        # _add(leftx, lefty, rightx, righty, recurs, 750)
 
-        # add completely flat biome (testing)
-        leftx += constants.CHUNK_SIZE
-        rightx = leftx+constants.CHUNK_SIZE
-        _add(leftx, lefty, rightx, righty, recurs, 250)
+        # # add completely flat biome (testing)
+        # leftx += constants.CHUNK_SIZE
+        # rightx = leftx+constants.CHUNK_SIZE
+        # _add(leftx, lefty, rightx, righty, recurs, 250)
 
+        # strip every second point and end points to prevent doubleups
         del points[1:-1:2]
         
         ##### add grass

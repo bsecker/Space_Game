@@ -30,6 +30,9 @@ HALF_SCREEN_HEIGHT = SCREEN_HEIGHT/2
 
 WIN_CAPTION = "Kay Thanks Bye - a No Mans Sky ripoff"
 
+
+# Level generator values
 BLOCK_SIZE = 10
 MAX_LEVEL_HEIGHT = 1720
-CHUNK_SIZE = 5120
+CHUNK_SIZE = 1280
+RECURS_DEPTH = 8

@@ -20,7 +20,9 @@ class World:
         self.level_entities = []
         self.player = None
 
-        self.camera = Camera(simple_camera, 1500, 720)
+        self.camera = Camera(simple_camera, 1, 1)
+
+        self.level_manager = gen.LevelManager()
 
         # Initialise Pygame
         pygame.init()
@@ -30,6 +32,9 @@ class World:
 
         self.clock = pygame.time.Clock()
         self.game_running = True
+        self.print_frames = 1
+        self.fps_timer = 0.0
+        self.print_fps_frequency = 1000
 
     def go(self):
         """main loop"""
@@ -62,12 +67,21 @@ class World:
         #update camera
         self.camera.update(self.player)
 
+        elapsed_milliseconds = self.clock.get_time()
+
+        #Print the fps that the game is running at.
+        if self.print_frames:
+            self.fps_timer += elapsed_milliseconds
+            if self.fps_timer > self.print_fps_frequency:
+                print "FPS: ", self.clock.get_fps()
+                self.fps_timer = 0.0
+
     def event_loop(self):
         """main event loop"""
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: 
+            if event.type == pygame.QUIT:
                 self.game_running = False
- 
+
             if event.type == pygame.KEYDOWN:
                 # Quit Game
                 if event.key == pygame.K_ESCAPE:

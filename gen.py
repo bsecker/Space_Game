@@ -6,12 +6,33 @@ import math
 import pygame
 import blocks
 
+import cPickle as pickle 
+
+class LevelManager:
+    """main class for handling loading and saving levels dynamically"""
+    def __init__(self, level = None):
+        self.level = level
+        self.path = "/levels/{0}/".format(level)
+
+    def update(self):
+        pass
+
+    def __set_chunk(self, chunk):
+        """take level_objs and pickle"""
+        objs = {}
+        for _i in chunk:
+            objs['rect'] = _i.rect
+
+
+
+    def __get_chunk(self, chunk):
+        pass
+
+
 class System:
     def __init__(self, planet_count, ):
         self.planets = [Planet(1, 'rock'), Planet(2, 'ice')]
         self.planet = None
-
-
         
 class Planet:
     def __init__(self, planet_id, planet_type):
@@ -21,9 +42,9 @@ class Planet:
         self.surface = SurfaceForest()
 
 class Surface:
-    def __init__(self, ):
+    def __init__(self, seed = 123):
         """Planet ground level."""
-        # random.seed(seed)
+        random.seed(seed)
         self.level_objs, self.spawnpoint = self.generate()
         self.level_entities = []                    
         # add player
@@ -46,13 +67,6 @@ class Surface:
         pass
 
 class SurfaceIce(Surface):
-    def __init__(self):
-        Surface.__init__(self)
-
-    def generate(self):
-        pass
-
-class SurfaceRock(Surface):
     def __init__(self):
         Surface.__init__(self)
 
@@ -148,18 +162,15 @@ class SurfaceForest(Surface):
             block_down = blocks.Dirt_Long(_i[0], _y+constants.BLOCK_SIZE, constants.SCREEN_HEIGHT)
             block_list.append(block_down)
 
-            # while _y < constants.MAX_LEVEL_HEIGHT:
-            #     _y += constants.BLOCK_SIZE
-            #     block = blocks.Dirt(_i[0], _y)
-            #     block_list.append(block)
 
-        # set spawnpoint to exact middle
+        # set spawnpoint to exact middle (TO DO: fix y pos)
         spawnpoint = (
             points[-1][0]/2,
-            points[1][1]/2-50
+            0
             )
 
         return block_list, spawnpoint
+
 
 ## OLD CODE
 
@@ -288,5 +299,10 @@ class SurfaceForest(Surface):
 
 # test function to see if this functionality works
 if __name__ == '__main__':
-    tree = Tree(50, 100)
-    #print tree.blocks
+    level = SurfaceForest()
+    objs = [[_i.rect] for _i in level.level_objs]
+
+    #pickle.dump( objs, open("save.p", "wb"))
+
+    #new_objs = pickle.load(open("save.p","rb"))
+    #print new_objs

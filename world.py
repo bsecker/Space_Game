@@ -13,8 +13,8 @@ class World:
     """
     def __init__(self):
         self.game_state = "state_surface"
-        self.system = gen.System(5)
-        self.planet = self.system.planets[0]
+        #self.system = gen.System(5)
+        #self.planet = self.system.planets[0]
 
         self.current = None
         self.level_objs = []
@@ -72,7 +72,7 @@ class World:
         self.camera.update(self.player)
 
         # get chunk
-        self.current_chunk = self.level_manager.get_current_chunk(self.player)
+        # self.current_chunk = self.level_manager.get_current_chunk(self.player)
 
         elapsed_milliseconds = self.clock.get_time()
 
@@ -118,7 +118,7 @@ class World:
             _i.draw(surface, self.camera)
 
     def state_surface(self):
-        self.current = self.planet.surface
+        self.current = gen.SurfaceForest(self.level_manager)
         self.level_objs = self.current.level_objs
         self.level_entities = self.current.level_entities
         self.player = self.current.player

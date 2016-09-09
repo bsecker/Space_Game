@@ -1,4 +1,29 @@
 # OLD CODE
+def generate_walk(self):
+        """generate forest based world"""
+        block_list = []
+        block_num = constants.SCREEN_WIDTH/constants.BLOCK_SIZE
+        y = (constants.SCREEN_HEIGHT-constants.BLOCK_SIZE*25)
+        
+        for _i in range(block_num):
+            x = _i * constants.BLOCK_SIZE
+
+            # change y 
+            y += random.choice([constants.BLOCK_SIZE, -constants.BLOCK_SIZE, 0])
+
+            # add grass
+            block = blocks.Grass(x, y)
+            block_list.append(block)
+
+            # add blocks below
+            _y = y
+            while _y <= constants.SCREEN_HEIGHT:
+                _y+=constants.BLOCK_SIZE
+                block = blocks.Dirt(x, _y)
+                block_list.append(block)
+  
+        return block_list
+
 
 class Galaxy:
     def __init__(self, seed = None):

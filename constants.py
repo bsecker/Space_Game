@@ -33,6 +33,6 @@ WIN_CAPTION = "Kay Thanks Bye - a No Mans Sky ripoff"
 
 # Level generator values
 BLOCK_SIZE = 10
-MAX_LEVEL_HEIGHT = 1720
-CHUNK_SIZE = 1280
-RECURS_DEPTH = 8
+MAX_LEVEL_HEIGHT = 1000
+CHUNK_SIZE = 2560
+RECURS_DEPTH = 9

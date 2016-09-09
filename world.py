@@ -9,6 +9,7 @@ class World:
     game_state = pygame 'level'. ie main menu can be a state.
     level_objs = objects within the level (specified by game_state).
 
+
     """
     def __init__(self):
         self.game_state = "state_surface"
@@ -20,7 +21,7 @@ class World:
         self.level_entities = []
         self.player = None
 
-        self.camera = Camera(simple_camera, 1, 1)
+        self.camera = Camera(simple_camera, constants.SCREEN_WIDTH,constants.SCREEN_HEIGHT)
 
         self.level_manager = gen.LevelManager()
 
@@ -61,11 +62,17 @@ class World:
         for _i in self.drawable_blocks:
             _i.update()
 
-        for _i in self.level_entities:
-            _i.update()
+        # update player
+        self.player.update()
+
+        # update level manager
+        self.level_manager.update()
 
         #update camera
         self.camera.update(self.player)
+
+        # get chunk
+        self.current_chunk = self.level_manager.get_current_chunk(self.player)
 
         elapsed_milliseconds = self.clock.get_time()
 
@@ -102,8 +109,6 @@ class World:
     def draw(self, surface):
         surface.fill(self.current.bg_colour)
 
-        
-
         # draw blocks
         for _i in self.drawable_blocks:
                 _i.draw(surface, self.camera)
@@ -112,17 +117,11 @@ class World:
         for _i in self.level_entities:
             _i.draw(surface, self.camera)
 
-    def set_state(self, state):
-        """change state to specified state"""
-        pass
-
     def state_surface(self):
         self.current = self.planet.surface
         self.level_objs = self.current.level_objs
         self.level_entities = self.current.level_entities
         self.player = self.current.player
-
-        
 
     def state_system(self):
         pass
@@ -144,8 +143,10 @@ class Camera(object): # ie, offset
 def simple_camera(camera, target_rect):
     l, t, _, _ = target_rect # l = left,  t = top
     _, _, w, h = camera      # w = width, h = height
-    return pygame.Rect(-l+constants.HALF_SCREEN_WIDTH, -t+constants.HALF_SCREEN_HEIGHT, w, h)  
-
+    l, t, _, _ = -l+constants.HALF_SCREEN_WIDTH, -t+constants.HALF_SCREEN_HEIGHT, w, h # center player
+    t = max(-(constants.MAX_LEVEL_HEIGHT-camera.height), t) # stop scrolling at the bottom
+    
+    return pygame.Rect(l, t, w, h)  
 
 if __name__ == '__main__':
     game = World()
